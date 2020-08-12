@@ -1,0 +1,8 @@
+
+  @media only screen and (max-width: 1600px) {
+    #div1 {
+        overflow:scroll;
+        margin-left: 15px;
+        width:100%;
+    }
+}

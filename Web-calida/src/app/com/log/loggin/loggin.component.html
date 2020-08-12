@@ -1,0 +1,22 @@
+
+
+<div class="row  justify-content-center align-items-center vh-100">
+  <div class="col-sm-4 bg-white text-center">
+    <img src="\assets\Cimarron.png" class="img-fluid" alt="Responsive image">
+    <h2 class=" t ">Autenticarse </h2>
+    <form #frmLogin='ngForm' (ngSubmit)='onLogin(frmLogin)' class="login-container">
+      <p>
+          <input class="form-control form-control-lg" type="User" name="user" placeholder="Ususario" ngModel required>
+        </p>
+      <p>
+          <input class="form-control form-control-lg "type="password" name="pass" placeholder="Constraseña" ngModel required >
+        </p>
+      <p>
+        <button class="  btn btn-success" value="Send" type="submit">Ingresar</button>
+        </p>
+     
+     
+    </form>
+  </div>
+  </div>
+

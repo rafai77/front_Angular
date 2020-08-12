@@ -1,0 +1,58 @@
+
+
+<div  class="container">
+  <div class="row">
+    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+      <button class="btn btn-outline-primary" ngbDropdownToggle>{{dropvalue}}</button>
+      <div class="dropdown-menu" ngbDropdownMenu>
+      <div ngbDropdownMenu aria-labelledby="dropdownManual">
+        <button ngbDropdownItem (click)="changeAction(dat['Nombre'])" *ngFor="let dat of data">{{dat['Nombre']}}</button>
+      </div>
+    </div>
+  </div>
+    
+    
+    <form class="form-inline">
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" readonly placeholder="yyyy-mm-dd"
+                 name="dp" [(ngModel)]="model"  ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button ngbTooltip="Seleccionar una fecha"  class="btn btn-outline-secondary calendar" (click)="(d.toggle())" type="button"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+              <path fill-rule="evenodd" d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+            </svg></button>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+<button ngbTooltip="Recargar Pagina"  class="btn btn-primary" value="Send"  (click)="Obtener()"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-repeat" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M2.854 7.146a.5.5 0 0 0-.708 0l-2 2a.5.5 0 1 0 .708.708L2.5 8.207l1.646 1.647a.5.5 0 0 0 .708-.708l-2-2zm13-1a.5.5 0 0 0-.708 0L13.5 7.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0 0-.708z"/>
+  <path fill-rule="evenodd" d="M8 3a4.995 4.995 0 0 0-4.192 2.273.5.5 0 0 1-.837-.546A6 6 0 0 1 14 8a.5.5 0 0 1-1.001 0 5 5 0 0 0-5-5zM2.5 7.5A.5.5 0 0 1 3 8a5 5 0 0 0 9.192 2.727.5.5 0 1 1 .837.546A6 6 0 0 1 2 8a.5.5 0 0 1 .501-.5z"/>
+</svg></button>
+
+<button ngbTooltip="Descargar Excel" class="btn btn-dark" value="Send" download="" (click)="descargarExcel()"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-spreadsheet" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z"/>
+  <path fill-rule="evenodd" d="M13 6H3V5h10v1zm0 3H3V8h10v1zm0 3H3v-1h10v1z"/>
+  <path fill-rule="evenodd" d="M5 14V6h1v8H5zm4 0V6h1v8H9z"/>
+</svg></button>
+
+    
+  </div>
+</div>
+ 
+<div class="Column" id="div1">
+  <table mat-table cdkColumnDef="customWidthClass" [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <!-- Position Column -->
+    <ng-container *ngFor="let dat of displayedColumns" matColumnDef={{dat}}>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{dat}} </th>
+        <td style="width:150px" [ngClass]="'customWidthClass'" mat-cell *matCellDef="let element"> {{" "+element[dat]}} </td>
+      </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>
+  
