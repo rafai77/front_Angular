@@ -50,19 +50,34 @@ export class DatosService {
           binaryData.push(response);
           let downloadLink = document.createElement('a');
           downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
-          if (filename)
+          if (filename) {
               downloadLink.setAttribute('download', filename);
+          }
           document.body.appendChild(downloadLink);
           downloadLink.click();
       }
   );
   }
 
+ chart(colum,f1,f2)
+ {
+   var body={
+     "c":colum,
+     "f1":f1,
+     "f2":f2
+   }
+   var headers={
+    'vefificador': this.servicelog.gettk()
+  }
+  return this.http.post(`${this.Dominio}/infocolum`,body,{headers:headers  } )
+
+
+ }
 
   invernaderos()
   {
     var headers={
-      'vefificador':this.servicelog.gettk()
+      'vefificador': this.servicelog.gettk()
     }
     return this.http.get(`${this.Dominio}/invernaderos/${this.servicelog.getname()}`,{headers:headers  } )
   }

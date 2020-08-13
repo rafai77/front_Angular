@@ -5,6 +5,8 @@ import {HomeComponent} from './home/home.component'
 import {VerificacionGuard} from './security/verificacion.guard'
 import {VerificacionlogGuard} from './security/verificacionlog.guard'
 import{BarComponent} from './bar/bar.component'
+import { GraficasComponent } from './graficas/graficas.component';
+
 
 
 
@@ -14,8 +16,9 @@ const routes: Routes = [
   {path:'',redirectTo:'Login',pathMatch:'full',},
   {path:'Login',component:LogginComponent,canActivate:[VerificacionlogGuard]},
   {path:'home',component:HomeComponent,canActivate:[VerificacionGuard]},
- 
-  
+  {path:'Graficas',component:GraficasComponent,canActivate:[VerificacionGuard]},
+
+
 ];
 
 @NgModule({

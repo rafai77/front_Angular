@@ -59,6 +59,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { BarComponent } from './bar/bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { GraficasComponent } from './graficas/graficas.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LogginComponent,
     HomeComponent,
     BarComponent,
+    GraficasComponent,
     
   ],
   imports: [

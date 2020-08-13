@@ -18,14 +18,14 @@ import { NgbDateStruct,NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 })
 export class HomeComponent implements OnInit {
   registros11:Registros11 [];
-  dropvalue:string//valor actual del drop del invernadero 
+  dropvalue:string//valor actual del drop del invernadero
   data:Invernaderos;//almacenar los invernaderos
   displayedColumns: string[];
   dataSource = new MatTableDataSource();
   model: NgbDateStruct;
- 
+
   constructor(private datos:DatosService,private router:Router,private calendar: NgbCalendar) {
-    this.dataSource = new MatTableDataSource() 
+    this.dataSource = new MatTableDataSource()
 
    }
 
@@ -38,16 +38,25 @@ export class HomeComponent implements OnInit {
        });
        console.log(this.data)
        this.dropvalue=this.data[0]['Nombre'];
-       
+
   }
   Obtener():void
   {
+    console.log("g");
+    this.datos.chart("num_color3","2020-08-10","2020-08-12").subscribe((res)=>
+    {
+      console.log(res);
+    }
+    );
+
+
+    console.log("g");
     var fecha=this.model.year+"-0"+this.model.month+"-"+this.model.day;
 
     this.registros11=[];
     console.log(fecha);
     this.datos.obtener(fecha,this.dropvalue).subscribe((res:Registros11 [])=>
-    {    
+    {
       console.log(res);
       if(res.length>0)
       this.dataSource.data=res;
@@ -55,8 +64,8 @@ export class HomeComponent implements OnInit {
       for (var j in res[0])
         aux.push(j);
       this.displayedColumns=aux;
-    }); 
-   
+    });
+
     this.dataSource.data=this.registros11;
 
   }
@@ -65,12 +74,13 @@ export class HomeComponent implements OnInit {
   {
     this.dropvalue=(obj);
     this.Obtener();
-    
-    
+
+
   }
 
-    
-  
+
+
+
   descargarExcel()
   {
     var fecha=this.model.year+"-0"+this.model.month+"-"+this.model.day;
@@ -79,27 +89,28 @@ export class HomeComponent implements OnInit {
   }
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  ngOnInit() 
+  ngOnInit()
   {
+
     this.model=this.calendar.getToday()
     this.inver();
     console.log(this.data[0]['Nombre']);
-   
+
     this.dropvalue=this.data[0]['Nombre'];
     this.Obtener();
     this.dataSource.sort = this.sort;
     this.dataSource.sort = this.sort;
     //this.dropvalue="Invernadero"
-    
 
-    
+
+
   }
   ngAfterViewInit()
   {
- 
+
     this.Obtener();
     this.dataSource.sort = this.sort;
     this.dataSource.sort = this.sort;
-   
+
   }
 }
