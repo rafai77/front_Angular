@@ -1,12 +1,6 @@
 export interface Graficas
 {
-  valor:number,
-  fecha:string
-
-}
-export interface DatosGraficas
-{
+  fecha:string,
   campo:string,
-  datos:Graficas
-
+  valor:number,
 }
