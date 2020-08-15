@@ -74,6 +74,19 @@ export class DatosService {
 
  }
 
+ chart12(colum,f1,f2)
+ {
+   var body={
+     "c":colum,
+     "f1":f1,
+     "f2":f2
+   }
+   var headers={
+    'vefificador': this.servicelog.gettk()
+  }
+  return this.http.post(`${this.Dominio}/infocolum12`,body,{headers:headers  } )
+ }
+
   invernaderos()
   {
     var headers={

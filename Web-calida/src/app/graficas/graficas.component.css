@@ -13,3 +13,22 @@ custom-day {
 .custom-day.faded {
   background-color: rgba(2, 117, 216, 0.5);
 }
+
+@media only screen and (min-width: 350px) {
+  #div1 {
+
+      margin-left: 15px;
+      margin-bottom: 50px;
+      width:90%;
+      height: 40%;
+  }
+}
+
+@media only screen and (min-width: 350px) {
+  #div2 {
+      margin-top: 30%;
+      margin-left: 15px;
+      width:90%;
+      height: 40%;
+  }
+}

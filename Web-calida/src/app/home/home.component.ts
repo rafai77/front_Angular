@@ -29,7 +29,10 @@ export class HomeComponent implements OnInit {
 
    }
 
-
+  graficas()
+  {
+    this.router.navigateByUrl('/Graficas');
+  }
   inver():void
   {
     this.datos.invernaderos().subscribe((res:any )=>{
@@ -42,15 +45,7 @@ export class HomeComponent implements OnInit {
   }
   Obtener():void
   {
-    console.log("g");
-    this.datos.chart("num_color3","2020-08-10","2020-08-12").subscribe((res)=>
-    {
-      console.log(res);
-    }
-    );
 
-
-    console.log("g");
     var fecha=this.model.year+"-0"+this.model.month+"-"+this.model.day;
 
     this.registros11=[];

@@ -15,9 +15,16 @@ export class BarComponent implements OnInit {
 
   Logout():void
   {
-  
     this.servicelog.logout();
     this.router.navigateByUrl('/Login');
+  }
+  tablas()
+  {
+    this.router.navigateByUrl('/Home');
+  }
+  graficas()
+  {
+    this.router.navigateByUrl('/Graficas');
   }
 
   ngOnInit(): void {
