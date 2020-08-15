@@ -68,9 +68,10 @@ import { GraficasComponent } from './graficas/graficas.component';
     HomeComponent,
     BarComponent,
     GraficasComponent,
-    
+
   ],
   imports: [
+    MatPaginatorModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,

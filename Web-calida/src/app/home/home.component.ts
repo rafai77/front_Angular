@@ -8,6 +8,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl, Validators} from '@angular/forms';
 import { NgbDateStruct,NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import {MatPaginator} from '@angular/material/paginator';
 
 
 
@@ -82,19 +83,20 @@ export class HomeComponent implements OnInit {
     console.log(this.dataSource.data);
     this.datos.descarga("datos" +this.dropvalue+fecha ,this.dataSource.data,this.displayedColumns);
   }
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-
+  @ViewChild(MatSort, {static: true}, ) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit()
   {
 
     this.model=this.calendar.getToday()
     this.inver();
-    console.log(this.data[0]['Nombre']);
-
-    this.dropvalue=this.data[0]['Nombre'];
     this.Obtener();
+    console.log(this.data[0]['Nombre']);
+    this.dataSource.paginator = this.paginator;
+    this.dropvalue=this.data[0]['Nombre'];
     this.dataSource.sort = this.sort;
     this.dataSource.sort = this.sort;
+
     //this.dropvalue="Invernadero"
 
 
@@ -106,6 +108,8 @@ export class HomeComponent implements OnInit {
     this.Obtener();
     this.dataSource.sort = this.sort;
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+
 
   }
 }
