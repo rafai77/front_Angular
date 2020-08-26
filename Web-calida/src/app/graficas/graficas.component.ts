@@ -87,7 +87,7 @@ export class GraficasComponent implements OnInit {
     //this.dropvalue=this.data[0]['Nombre']
   }
 
-  grafica()//colores y brix para invernedero 12
+  grafica()//colores y brix para invernedero 11
   {
     //this.chart.destroy();
 
@@ -326,9 +326,7 @@ export class GraficasComponent implements OnInit {
 
       }
      // console.log(this.dias_graficas)
-     Chart.helpers.each(Chart.instances, function (instance) {
-      instance.destroy();
-    });
+
       if (this.chart2) this.chart2.destroy();
       this.chart2=new Chart('canvas2',{
         type:'line',
@@ -545,9 +543,7 @@ export class GraficasComponent implements OnInit {
 
   graficaD12()
   {
-    Chart.helpers.each(Chart.instances, function (instance) {
-      instance.destroy();
-    });
+
 //this.chart2.destroy();
 
     this.dias_graficas=[];
@@ -683,9 +679,7 @@ export class GraficasComponent implements OnInit {
   }
 graficar()
 {
-  Chart.helpers.each(Chart.instances, function (instance) {
-    instance.destroy();
-  });
+
   //console.log(this.dropvalue)
   if (this.dropvalue=='Invernadero-11')
   {
