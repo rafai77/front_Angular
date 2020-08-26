@@ -12,7 +12,7 @@ import { LogginService } from './log/loggin.service';
 })
 export class DatosService {
   private regi11:Registros11;
-  private Dominio = 'http://localhost:3000';
+  private Dominio = 'http://192.168.1.15:3000';
   constructor(private http: HttpClient,private router:Router,private servicelog:LogginService) { }
 
   obtener(fecha:string,nombre:string)

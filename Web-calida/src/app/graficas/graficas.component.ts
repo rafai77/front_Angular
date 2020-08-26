@@ -184,6 +184,7 @@ export class GraficasComponent implements OnInit {
 
       }
       //console.log(this.dias_graficas)
+      console.log(data_chart)
       console.log(this.chart)
       if (this.chart)
       {
@@ -325,6 +326,9 @@ export class GraficasComponent implements OnInit {
 
       }
      // console.log(this.dias_graficas)
+     Chart.helpers.each(Chart.instances, function (instance) {
+      instance.destroy();
+    });
       if (this.chart2) this.chart2.destroy();
       this.chart2=new Chart('canvas2',{
         type:'line',
@@ -443,6 +447,7 @@ export class GraficasComponent implements OnInit {
     var contador=0;
     var data_chart=[]
     var dataset=[]
+
     this.datos.chart12(dat,f1,f2).subscribe((res:Graficas)=>
     {
 
@@ -540,7 +545,9 @@ export class GraficasComponent implements OnInit {
 
   graficaD12()
   {
-
+    Chart.helpers.each(Chart.instances, function (instance) {
+      instance.destroy();
+    });
 //this.chart2.destroy();
 
     this.dias_graficas=[];
