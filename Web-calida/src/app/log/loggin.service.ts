@@ -12,7 +12,7 @@ import { Routes, RouterModule, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LogginService {
-  private Dominio = 'http://192.168.1.15:3000';
+  private Dominio = 'http://192.168.1.25:3000';
   private token:string ;// tk
   private user:string;//
   private info:Jwt;//informacion de la resupesta
