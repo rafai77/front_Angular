@@ -143,10 +143,10 @@ export class GraficasComponent implements OnInit {
     var contador=0;
     var data_chart=[]
     var dataset=[]
-
+    if (this.chart) this.chart.destroy();
     this.datos.chart(dat,f1,f2).subscribe((res:Graficas)=>
     {
-
+      if (this.chart) this.chart.destroy();
 
 
       for(var i in this.dias_graficas)
@@ -185,10 +185,10 @@ export class GraficasComponent implements OnInit {
       }
       //console.log(this.dias_graficas)
       console.log(data_chart)
-      console.log(this.chart)
+      if (this.chart) this.chart.destroy();
       if (this.chart)
       {
-        console.log(this.chart)
+        //console.log(this.chart)
         this.chart.destroy();
 
       }
@@ -239,7 +239,7 @@ export class GraficasComponent implements OnInit {
           }
         }
 
-      }).update();
+      });
     }
     );
 
@@ -445,6 +445,7 @@ export class GraficasComponent implements OnInit {
     var contador=0;
     var data_chart=[]
     var dataset=[]
+
 
     this.datos.chart12(dat,f1,f2).subscribe((res:Graficas)=>
     {
