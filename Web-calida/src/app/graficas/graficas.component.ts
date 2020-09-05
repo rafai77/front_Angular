@@ -5,6 +5,8 @@ import { Routes, RouterModule, Router } from '@angular/router';
 import {NgbDate, NgbCalendar,NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import { Graficas } from '../modelos/graficas';
 import { Invernaderos } from '../modelos/Invernaderos';
+import { utf8Encode } from '@angular/compiler/src/util';
+import { isEmpty } from 'rxjs/operators';
 
 @Component({
   selector: 'app-graficas',
@@ -87,6 +89,7 @@ export class GraficasComponent implements OnInit {
     //this.dropvalue=this.data[0]['Nombre']
   }
 
+
   grafica()//colores y brix para invernedero 11
   {
     //this.chart.destroy();
@@ -94,6 +97,7 @@ export class GraficasComponent implements OnInit {
 
     this.dias_graficas=[];
     var mes="";
+
     if(this.fromDate.month.toString().length>1)
     mes=this.fromDate.month.toString();
     else
@@ -108,25 +112,6 @@ export class GraficasComponent implements OnInit {
 
     var resta = f2.getTime() - f1.getTime()
     var dias=(Math.round(resta/ (1000*60*60*24)));
-
-    //console.log(f1,f2)
-    var dia="";
-    var aux= this.fromDate;
-    for (var i=0;i<=dias;i++)
-    {
-      if(aux.day.toString().length>1)
-      dia=aux.day.toString();
-      else
-      dia="0"+aux.day.toString()
-      if(aux.month.toString().length>1)
-      mes=aux.month.toString();
-      else
-      mes="0"+aux.month.toString()
-
-      this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+aux.day.toString())));
-      aux=this.calendar.getNext(aux,"d",1);
-
-    }
     var dato="num_color3";
     var dato2="num_color4";
     var dato3="num_color5";
@@ -138,52 +123,73 @@ export class GraficasComponent implements OnInit {
     dat.push(dato3);
     dat.push(dato4);
     dat.push(dato5);
+    this.datos.chart(dat,f1,f2).subscribe((res:Graficas)=>
+    {
+    //console.log(f1,f2)
+    var dia="";
+    var aux= this.fromDate;
+    this.dias_graficas=[];
+    for (let i=0;i<=dias;i++)
+    {
+      if(aux.day.toString().length>1)
+      dia=aux.day.toString();
+      else
+      dia="0"+aux.day.toString()
+      if(aux.month.toString().length>1)
+      mes=aux.month.toString();
+      else
+      mes="0"+aux.month.toString()
+      this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+dia)));
+      aux=this.calendar.getNext(aux,"d",1);
+
+    }
+
     var diasvalor=[]
     var aux2=[]
     var contador=0;
     var data_chart=[]
     var dataset=[]
-    if (this.chart) this.chart.destroy();
-    this.datos.chart(dat,f1,f2).subscribe((res:Graficas)=>
+    aux2=diasvalor.slice();
+    for(let i=0;i<=this.dias_graficas.length;i++)
     {
+      diasvalor[i]=0;
+    }
+    aux2=diasvalor.slice();
+    console.log(diasvalor)
+
+    if (this.chart) this.chart.destroy();
+
+      console.log(res);
       if (this.chart) this.chart.destroy();
-
-
-      for(var i in this.dias_graficas)
-      {
-        diasvalor[i]=0;
-      }
-
-      aux2=diasvalor.slice();
-      //console.log(res)
 
       for (var i in dat)
       {
+        console.log(aux2)
        for (var j in res)
        {
 
          if(dat[i]==res[j]["campo"])
          {
           if(this.dias_graficas.includes(res[j]["fecha"]))
-          {
             aux2[this.dias_graficas.indexOf(res[j]["fecha"])]=(res[j]["valor"])
-          //console.log(res[j])
-
-          }
-
+          else
+            aux2[j]=0
          }
        }
+
+
+
        this.getRandomColor()
+
        data_chart.push(
          {
           label:dat[i],
-          data:aux2,
+          data:aux2.slice(),
           borderColor:this.color,
          })
        aux2=diasvalor.slice();
 
       }
-      //console.log(this.dias_graficas)
       console.log(data_chart)
       if (this.chart) this.chart.destroy();
       if (this.chart)
@@ -265,11 +271,12 @@ export class GraficasComponent implements OnInit {
 
     var resta = f2.getTime() - f1.getTime()
     var dias=(Math.round(resta/ (1000*60*60*24)));
-
-
+    this.datos.chart(this.daños,f1,f2).subscribe((res:Graficas)=>
+    {
+      this.dias_graficas=[]
     var aux= this.fromDate;
     var dia="";
-    for (var i=0;i<=dias;i++)
+    for (let i=0;i<=dias;i++)
     {
       if(aux.day.toString().length>1)
       dia=aux.day.toString();
@@ -280,7 +287,7 @@ export class GraficasComponent implements OnInit {
       else
       mes="0"+aux.month.toString()
 
-      this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+aux.day.toString())));
+      this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+dia)));
       aux=this.calendar.getNext(aux,"d",1);
 
     }
@@ -289,37 +296,37 @@ export class GraficasComponent implements OnInit {
     var contador=0;
     var data_chart=[]
     var dataset=[]
-    this.datos.chart(this.daños,f1,f2).subscribe((res:Graficas)=>
-    {
 
 
-      for(var i in this.dias_graficas)
+    aux2=diasvalor.slice();
+    for(let i=0;i<=this.dias_graficas.length;i++)
       {
         diasvalor[i]=0;
       }
-
       aux2=diasvalor.slice();
 
-      for (var i in this.daños)
+      if (this.chart2) this.chart2.destroy();
+      for (let i in this.daños)
       {
-       for (var j in res)
+       for (let j in res)
        {
 
-         if(this.daños[i]==res[j]["campo"])
+        if(this.daños[i]==res[j]["campo"])
          {
+              var auxF=res[j]["fecha"].slice(0,7);
+              auxF+="-"+res[j]["fecha"].slice(9);
+             // console.log(this.dias_graficas, res[j]["fecha"],this.dias_graficas.includes(auxF),auxF )
           if(this.dias_graficas.includes(res[j]["fecha"]))
-          {
             aux2[this.dias_graficas.indexOf(res[j]["fecha"])]=(res[j]["valor"])
-
-          }
-
+          if(this.dias_graficas.includes(auxF))
+            aux2[this.dias_graficas.indexOf(auxF)]=(res[j]["valor"])
          }
        }
        this.getRandomColor()
        data_chart.push(
          {
           label:this.daños[i],
-          data:aux2,
+          data:aux2.slice(),
           borderColor:this.color,
          })
        aux2=diasvalor.slice();
@@ -382,8 +389,6 @@ export class GraficasComponent implements OnInit {
 
   grafica12()// color y brix del invernadero 12
   {
-    //this.chart.destroy();
-
 
     this.dias_graficas=[];
     var mes="";
@@ -409,22 +414,7 @@ export class GraficasComponent implements OnInit {
 
     var dia=""
     var aux= this.fromDate;
-    for (var i=0;i<=dias;i++)
-    {
-      if(aux.day.toString().length>1)
-      dia=aux.day.toString();
-      else
-      dia="0"+aux.day.toString()
 
-      if(aux.month.toString().length>1)
-      mes=aux.month.toString();
-      else
-      mes="0"+aux.month.toString()
-      //console.log(aux.year.toString()+"-"+mes+"-"+dia)
-      this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+dia)));
-      aux=this.calendar.getNext(aux,"d",1);
-
-    }
     var dato="num_color3";
     var dato2="num_color4";
     var dato3="num_color5";
@@ -440,6 +430,25 @@ export class GraficasComponent implements OnInit {
     dat.push(dato5);
     dat.push(dato6);
     dat.push(dato7);
+    this.datos.chart12(dat,f1,f2).subscribe((res:Graficas)=>
+    {
+    for (let i=0;i<=dias;i++)
+    {
+      if(aux.day.toString().length>1)
+      dia=aux.day.toString();
+      else
+      dia="0"+aux.day.toString()
+
+      if(aux.month.toString().length>1)
+      mes=aux.month.toString();
+      else
+      mes="0"+aux.month.toString()
+      //console.log(aux.year.toString()+"-"+mes+"-"+dia)
+      this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+dia)));
+      aux=this.calendar.getNext(aux,"d",1);
+
+    }
+
     var diasvalor=[]
     var aux2=[]
     var contador=0;
@@ -447,12 +456,11 @@ export class GraficasComponent implements OnInit {
     var dataset=[]
 
 
-    this.datos.chart12(dat,f1,f2).subscribe((res:Graficas)=>
-    {
 
 
 
-      for(var i in this.dias_graficas)
+
+      for(let i=0;i< this.dias_graficas.length;i++)
       {
         diasvalor[i]=0;
       }
@@ -460,19 +468,18 @@ export class GraficasComponent implements OnInit {
       aux2=diasvalor.slice();
       //console.log(res)
 
-      for (var i in dat)
+      for (let i in dat)
       {
-       for (var j in res)
+       for (let j in res)
        {
 
          if(dat[i]==res[j]["campo"])
          {
-          // console.log(res[j]["fecha"]);
-           //console.log(this.dias_graficas);
+
           if(this.dias_graficas.includes(res[j]["fecha"]))
           {
             aux2[this.dias_graficas.indexOf(res[j]["fecha"])]=(res[j]["valor"])
-          //console.log(res[j])
+
 
           }
 
@@ -536,7 +543,7 @@ export class GraficasComponent implements OnInit {
           }
         }
 
-      }).update();
+      });
     }
     );
 
@@ -547,135 +554,136 @@ export class GraficasComponent implements OnInit {
 
 //this.chart2.destroy();
 
-    this.dias_graficas=[];
-    var mes="";
-    if(this.fromDate.month.toString().length>1)
-    mes=this.fromDate.month.toString();
-    else
-    mes="0"+this.fromDate.month.toString()
-    var f1=new Date(this.fromDate.year.toString()+"-"+mes+"-"+this.fromDate.day.toString());
 
-    if(this.toDate.month.toString().length>1)
-    mes=this.toDate.month.toString();
-    else
-    mes="0"+this.toDate.month.toString()
-    var f2=new Date(this.toDate.year.toString()+"-"+mes+"-"+this.toDate.day.toString());
+this.dias_graficas=[];
+var mes="";
+if(this.fromDate.month.toString().length>1)
+mes=this.fromDate.month.toString();
+else
+mes="0"+this.fromDate.month.toString()
+var f1=new Date(this.fromDate.year.toString()+"-"+mes+"-"+this.fromDate.day.toString());
 
-    var resta = f2.getTime() - f1.getTime()
-    var dias=(Math.round(resta/ (1000*60*60*24)));
+if(this.toDate.month.toString().length>1)
+mes=this.toDate.month.toString();
+else
+mes="0"+this.toDate.month.toString()
+var f2=new Date(this.toDate.year.toString()+"-"+mes+"-"+this.toDate.day.toString());
+
+var resta = f2.getTime() - f1.getTime()
+var dias=(Math.round(resta/ (1000*60*60*24)));
+this.datos.chart(this.daños,f1,f2).subscribe((res:Graficas)=>
+{
+  this.dias_graficas=[]
+var aux= this.fromDate;
+var dia="";
+for (let i=0;i<=dias;i++)
+{
+  if(aux.day.toString().length>1)
+  dia=aux.day.toString();
+  else
+  dia="0"+aux.day.toString()
+  if(aux.month.toString().length>1)
+  mes=aux.month.toString();
+  else
+  mes="0"+aux.month.toString()
+
+  this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+dia)));
+  aux=this.calendar.getNext(aux,"d",1);
+
+}
+var diasvalor=[]
+var aux2=[]
+var contador=0;
+var data_chart=[]
+var dataset=[]
 
 
-    var aux= this.fromDate;
-    var dia="";
-    for (var i=0;i<=dias;i++)
+aux2=diasvalor.slice();
+for(let i=0;i<=this.dias_graficas.length;i++)
+  {
+    diasvalor[i]=0;
+  }
+  aux2=diasvalor.slice();
+
+  if (this.chart2) this.chart2.destroy();
+  for (let i in this.daños)
+  {
+   for (let j in res)
+   {
+
+    if(this.daños[i]==res[j]["campo"])
+     {
+          var auxF=res[j]["fecha"].slice(0,7);
+          auxF+="-"+res[j]["fecha"].slice(9);
+         // console.log(this.dias_graficas, res[j]["fecha"],this.dias_graficas.includes(auxF),auxF )
+      if(this.dias_graficas.includes(res[j]["fecha"]))
+        aux2[this.dias_graficas.indexOf(res[j]["fecha"])]=(res[j]["valor"])
+      if(this.dias_graficas.includes(auxF))
+        aux2[this.dias_graficas.indexOf(auxF)]=(res[j]["valor"])
+     }
+   }
+   this.getRandomColor()
+   data_chart.push(
+     {
+      label:this.daños[i],
+      data:aux2.slice(),
+      borderColor:this.color,
+     })
+   aux2=diasvalor.slice();
+
+  }
+ // console.log(this.dias_graficas)
+
+  if (this.chart2) this.chart2.destroy();
+  this.chart2=new Chart('canvas2',{
+    type:'line',
+    data:{
+
+      labels:this.dias_graficas,//.map(item => new Intl.DateTimeFormat('es-MX',{month:'long',day:'numeric'}).format(new Date(item))),
+      datasets:data_chart
+    },
+    options:
     {
-      if(aux.day.toString().length>1)
-      dia=aux.day.toString();
-      else
-      dia="0"+aux.day.toString()
-      if(aux.month.toString().length>1)
-      mes=aux.month.toString();
-      else
-      mes="0"+aux.month.toString()
-
-      this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+dia)));
-      aux=this.calendar.getNext(aux,"d",1);
-
-    }
-    var diasvalor=[]
-    var aux2=[]
-    var contador=0;
-    var data_chart=[]
-    var dataset=[]
-    this.datos.chart12(this.daños,f1,f2).subscribe((res:Graficas)=>
-    {
+      title:{
+        display:true,
+        text:"Daños del invernadero 12",
+        fontSize:30,
 
 
-      for(var i in this.dias_graficas)
-      {
-        diasvalor[i]=0;
-      }
-
-      aux2=diasvalor.slice();
-      //console.log(res)
-
-      for (var i in this.daños)
-      {
-       for (var j in res)
-       {
-
-         if(this.daños[i]==res[j]["campo"])
-         {
-          if(this.dias_graficas.includes(res[j]["fecha"]))
-          {
-            aux2[this.dias_graficas.indexOf(res[j]["fecha"])]=(res[j]["valor"])
-          //console.log(res[j])
-
-          }
-
-         }
-       }
-       this.getRandomColor()
-       data_chart.push(
-         {
-          label:this.daños[i],
-          data:aux2,
-          borderColor:this.color,
-         })
-       aux2=diasvalor.slice();
-
-      }
-      //console.log(this.dias_graficas)
-      if (this.chart2) this.chart2.destroy();
-      this.chart2=new Chart('canvas2',{
-        type:'line',
-        data:{
-
-          labels:this.dias_graficas,//.map(item => new Intl.DateTimeFormat('es-MX',{month:'long',day:'numeric'}).format(new Date(item))),
-          datasets:data_chart
-        },
-        options:
+      },
+      legend:{
+        position:'bottom',
+        labels:
         {
-          title:{
-            display:true,
-            text:"Daños del invernadero 12",
-            fontSize:30,
-
-
-          },
-          legend:{
-            position:'bottom',
-            labels:
-            {
-              padding:20,
-              fontFamily:'system-ui',
-              fontColor:'black'
-            }
-
-          },
-          tooltips:
-          {
-            backgroundColor:'#05b4f6',
-            mode:'x'
-          },
-          elements:
-          {
-            line:{
-              borderWidth:4,
-              fill:false
-            },
-            point:{
-              radius:6,
-              borderWidth:4,
-              backgroundColor:'white',
-              hoverRadius:8
-            }
-          }
+          padding:20,
+          fontFamily:'system-ui',
+          fontColor:'black'
         }
 
-      }).update();
+      },
+      tooltips:
+      {
+        backgroundColor:'#05b4f6',
+        mode:'x'
+      },
+      elements:
+      {
+        line:{
+          borderWidth:4,
+          fill:false
+        },
+        point:{
+          radius:6,
+          borderWidth:4,
+          backgroundColor:'white',
+          hoverRadius:8
+        }
+      }
     }
-    );
+
+  })
+}
+);
 
   }
 graficar()
