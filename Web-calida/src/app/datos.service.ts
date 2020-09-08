@@ -101,6 +101,8 @@ datostotales(fecha,inv)
   var ta="";
   if(inv=='Invernadero-11')
     ta="totales11"
+  if(inv=='Invernadero-12')
+    ta="totales12"
   var body={
     "tabla":ta,
     "fecha":fecha,

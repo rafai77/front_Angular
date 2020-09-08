@@ -54,9 +54,12 @@ export class HomeComponent implements OnInit {
     this.registros11=[];
     console.log(fecha);
 
+
     this.datos.obtener(fecha,this.dropvalue).subscribe((res:Registros11 [])=>
     {
-      console.log(res);
+
+
+
       if(res.length>0)
       this.dataSource.data=res;
       var aux=[]
@@ -64,41 +67,55 @@ export class HomeComponent implements OnInit {
         aux.push(j);
       this.displayedColumns=aux;
 
+
     });
     this.datos.datostotales(fecha,this.dropvalue).subscribe((res2:any)=>
+    {
+      var porc=[]
+      var p=[];
+      //this.dataSource2.data=[]
+      this.dataSource2 = new MatTableDataSource()
+      console.log(res2["datos"])
+
+      this.dataSource2.data=res2["datos"]
+
+      for (var i in res2["datos"][0] )
       {
-        console.log(res2["datos"])
-        this.dataSource2.data=res2["datos"];
-        let porc=[]
-        let p=[];
-        for (var i in res2["datos"][0] )
-        {
-          //console.log( res2["datos"][0][i])
-          let aux=i;
-
-          if(i=="i_total" || i=="fecha" ||i=="Total" )
-          porc.push(  res2["datos"][0][i]);
-          else
-          porc.push( (res2["datos"][0][i]/ res2["datos"][0]["Total"]).toFixed(3) )
-
-        }
-        console.log(porc)
+        //console.log( res2["datos"][0][i])
 
 
-        var aux=[];
-        for (var j in res2["datos"][0])
-        aux.push(j);
-         this.displayedColumns2=aux;
-         console.log(this.displayedColumns2)
-         for (let j=0; j<=porc.length;j++)
-        {
-          p[this.displayedColumns2[j]]=porc[j]
-        }
-        this.dataSource2.data.push(p)
+        if(i=="i_total" || i=="fecha" ||i=="Total" )
+        porc.push(  res2["datos"][0][i]);
+        else
+        porc.push( (res2["datos"][0][i]/ res2["datos"][0]["Total"]).toFixed(3) )
 
       }
+      console.log(porc)
 
-      );
+
+      var aux=[];
+      for (var j in res2["datos"][0])
+      aux.push(j);
+       this.displayedColumns2=aux;
+       console.log(this.displayedColumns2)
+       p=[]
+       for (let j=0; j<=porc.length;j++)
+      {
+        p[this.displayedColumns2[j]]=porc[j]
+      }
+      console.log(this.dataSource2.data.length);
+      if(this.dataSource2.data.length<2)
+        this.dataSource2.data.push(p)
+      else
+        this.dataSource2.data.pop()
+      console.log(p)
+      console.log(this.dataSource2.data)
+
+
+    }
+
+    );
+
 
     //this.dataSource.data=this.registros11;
 
