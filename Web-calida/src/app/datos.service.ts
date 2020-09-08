@@ -95,4 +95,24 @@ export class DatosService {
     }
     return this.http.get(`${this.Dominio}/invernaderos/${this.servicelog.getname()}`,{headers:headers  } )
   }
+
+datostotales(fecha,inv)
+{
+  var ta="";
+  if(inv=='Invernadero-11')
+    ta="totales11"
+  var body={
+    "tabla":ta,
+    "fecha":fecha,
+  };
+  var headers={
+    'vefificador': this.servicelog.gettk()
+  }
+  return this.http.post(`${this.Dominio}/tablatotales`,body,{headers:headers  } )
 }
+
+
+}
+
+
+

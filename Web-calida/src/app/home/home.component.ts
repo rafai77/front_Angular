@@ -22,11 +22,14 @@ export class HomeComponent implements OnInit {
   dropvalue:string//valor actual del drop del invernadero
   data:Invernaderos;//almacenar los invernaderos
   displayedColumns: string[];
+  displayedColumns2: string[];
   dataSource = new MatTableDataSource();
+  dataSource2 = new MatTableDataSource();
   model: NgbDateStruct;
 
   constructor(private datos:DatosService,private router:Router,private calendar: NgbCalendar) {
     this.dataSource = new MatTableDataSource()
+    this.dataSource2 = new MatTableDataSource()
 
    }
 
@@ -46,23 +49,58 @@ export class HomeComponent implements OnInit {
   }
   Obtener():void
   {
-
     var fecha=this.model.year+"-0"+this.model.month+"-"+this.model.day;
 
     this.registros11=[];
     console.log(fecha);
+
     this.datos.obtener(fecha,this.dropvalue).subscribe((res:Registros11 [])=>
     {
       console.log(res);
       if(res.length>0)
       this.dataSource.data=res;
-      var aux=[];
+      var aux=[]
       for (var j in res[0])
         aux.push(j);
       this.displayedColumns=aux;
-    });
 
-    this.dataSource.data=this.registros11;
+    });
+    this.datos.datostotales(fecha,this.dropvalue).subscribe((res2:any)=>
+      {
+        console.log(res2["datos"])
+        this.dataSource2.data=res2["datos"];
+        let porc=[]
+        let p=[];
+        for (var i in res2["datos"][0] )
+        {
+          //console.log( res2["datos"][0][i])
+          let aux=i;
+
+          if(i=="i_total" || i=="fecha" ||i=="Total" )
+          porc.push(  res2["datos"][0][i]);
+          else
+          porc.push( (res2["datos"][0][i]/ res2["datos"][0]["Total"]).toFixed(3) )
+
+        }
+        console.log(porc)
+
+
+        var aux=[];
+        for (var j in res2["datos"][0])
+        aux.push(j);
+         this.displayedColumns2=aux;
+         console.log(this.displayedColumns2)
+         for (let j=0; j<=porc.length;j++)
+        {
+          p[this.displayedColumns2[j]]=porc[j]
+        }
+        this.dataSource2.data.push(p)
+
+      }
+
+      );
+
+    //this.dataSource.data=this.registros11;
 
   }
 
