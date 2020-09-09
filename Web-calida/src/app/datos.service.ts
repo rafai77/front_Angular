@@ -30,6 +30,8 @@ export class DatosService {
     return this.http.post(`${this.Dominio}/datos`,dat,{headers:headers  } )
     if(nombre=="Invernadero-12")
     return this.http.post(`${this.Dominio}/datos12`,dat,{headers:headers  } )
+    if(nombre=="Invernadero-16")
+    return this.http.post(`${this.Dominio}/datos16`,dat,{headers:headers  } )
 
   }
 
@@ -103,6 +105,8 @@ datostotales(fecha,inv)
     ta="totales11"
   if(inv=='Invernadero-12')
     ta="totales12"
+    if(inv=='Invernadero-16')
+    ta="totales16"
   var body={
     "tabla":ta,
     "fecha":fecha,
@@ -112,6 +116,21 @@ datostotales(fecha,inv)
   }
   return this.http.post(`${this.Dominio}/tablatotales`,body,{headers:headers  } )
 }
+
+chart16(colum,f1,f2)
+ {
+   var body={
+     "c":colum,
+     "f1":f1,
+     "f2":f2
+   }
+   var headers={
+    'vefificador': this.servicelog.gettk()
+  }
+  return this.http.post(`${this.Dominio}/infocolum16`,body,{headers:headers  } )
+
+
+ }
 
 
 }
