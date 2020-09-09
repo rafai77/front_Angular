@@ -32,6 +32,8 @@ export class DatosService {
     return this.http.post(`${this.Dominio}/datos12`,dat,{headers:headers  } )
     if(nombre=="Invernadero-16")
     return this.http.post(`${this.Dominio}/datos16`,dat,{headers:headers  } )
+    if(nombre=="Invernadero-15")
+    return this.http.post(`${this.Dominio}/datos15`,dat,{headers:headers  } )
 
   }
 
@@ -62,7 +64,7 @@ export class DatosService {
   );
   }
 
- chart(colum,f1,f2)
+ chart(colum,f1,f2,tabla)
  {
    var body={
      "c":colum,
@@ -72,8 +74,10 @@ export class DatosService {
    var headers={
     'vefificador': this.servicelog.gettk()
   }
+  if(tabla=="totales11")
   return this.http.post(`${this.Dominio}/infocolum`,body,{headers:headers  } )
-
+  if(tabla=="totales15")
+  return this.http.post(`${this.Dominio}/infocolum15`,body,{headers:headers  } )
 
  }
 
@@ -105,8 +109,10 @@ datostotales(fecha,inv)
     ta="totales11"
   if(inv=='Invernadero-12')
     ta="totales12"
-    if(inv=='Invernadero-16')
+  if(inv=='Invernadero-16')
     ta="totales16"
+  if(inv=='Invernadero-15')
+    ta="totales15"
   var body={
     "tabla":ta,
     "fecha":fecha,
@@ -128,6 +134,23 @@ chart16(colum,f1,f2)
     'vefificador': this.servicelog.gettk()
   }
   return this.http.post(`${this.Dominio}/infocolum16`,body,{headers:headers  } )
+
+
+ }
+
+
+
+ chart15(colum,f1,f2)
+ {
+   var body={
+     "c":colum,
+     "f1":f1,
+     "f2":f2
+   }
+   var headers={
+    'vefificador': this.servicelog.gettk()
+  }
+  return this.http.post(`${this.Dominio}/infocolum15`,body,{headers:headers  } )
 
 
  }

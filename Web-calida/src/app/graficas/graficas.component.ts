@@ -109,7 +109,7 @@ export class GraficasComponent implements OnInit {
   }
 
 
-  grafica()//colores y brix para invernedero 11
+  grafica(tabla)//colores y brix para invernedero 11
   {
     //this.chart.destroy();
 
@@ -144,7 +144,7 @@ export class GraficasComponent implements OnInit {
     dat.push(dato4);
     dat.push(dato5);
     dat.push(dato6);
-    this.datos.chart(dat,f1,f2).subscribe((res:Graficas)=>
+    this.datos.chart(dat,f1,f2,tabla).subscribe((res:Graficas)=>
     {
     //console.log(f1,f2)
     var dia="";
@@ -271,7 +271,7 @@ export class GraficasComponent implements OnInit {
     );
 
   }
-  graficaD()// daños para el invernadero 11
+  graficaD(tabla)// daños para el invernadero 11
   {
     //this.chart2.destroy();
 
@@ -292,7 +292,7 @@ export class GraficasComponent implements OnInit {
 
     var resta = f2.getTime() - f1.getTime()
     var dias=(Math.round(resta/ (1000*60*60*24)));
-    this.datos.chart(this.daños,f1,f2).subscribe((res:Graficas)=>
+    this.datos.chart(this.daños,f1,f2,tabla).subscribe((res:Graficas)=>
     {
       this.dias_graficas=[]
     var aux= this.fromDate;
@@ -961,7 +961,6 @@ for(let i=0;i<=this.dias_graficas.length;i++)
 
   }
  // console.log(this.dias_graficas)
- this.chart2.defaults.line.spanGaps = false;
   if (this.chart2) this.chart2.destroy();
   this.chart2=new Chart('canvas2',{
     type:'line',
@@ -1016,27 +1015,37 @@ for(let i=0;i<=this.dias_graficas.length;i++)
 
   }
 
+
+
+
 graficar()
 {
 
   //console.log(this.dropvalue)
   if (this.dropvalue=='Invernadero-11')
   {
-    this.grafica()
-    this.graficaD()
+    this.grafica("totales11")
+    this.graficaD("totales11")
   }
-if (this.dropvalue=='Invernadero-12')
+  if (this.dropvalue=='Invernadero-12')
   {
     //console.log("12")
     this.grafica12()
     this.graficaD12()
     }
-    if (this.dropvalue=='Invernadero-16')
-    {
+  if (this.dropvalue=='Invernadero-16')
+  {
       //console.log("12")
       this.grafica16()
       this.graficaD16()
       }
+  if (this.dropvalue=='Invernadero-15')
+  {
+      //console.log("12")
+     this.grafica("totales15")
+    this.graficaD("totales15")
+      }
+
 }
 
 getRandomColor() {
