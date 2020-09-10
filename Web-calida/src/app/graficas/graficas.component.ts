@@ -50,7 +50,7 @@ export class GraficasComponent implements OnInit {
 
   constructor(private datos:DatosService,private router:Router,private calendar: NgbCalendar,public formatter: NgbDateParserFormatter) {
     this.fromDate = calendar.getPrev(calendar.getToday(), 'd', 8);
-    this.toDate = calendar.getToday();
+    this.toDate = calendar.getNext(calendar.getToday(), 'd',2);
   }
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
@@ -207,6 +207,7 @@ export class GraficasComponent implements OnInit {
           label:dat[i],
           data:aux2.slice(),
           borderColor:this.color,
+          lineTension:.25
          })
        aux2=diasvalor.slice();
 
@@ -229,6 +230,9 @@ export class GraficasComponent implements OnInit {
         },
         options:
         {
+
+
+
           title:{
             display:true,
             text:"Colores del invernadero 11",
@@ -237,6 +241,7 @@ export class GraficasComponent implements OnInit {
 
           },
           legend:{
+           // display: false,
             position:'bottom',
             labels:
             {
@@ -349,6 +354,7 @@ export class GraficasComponent implements OnInit {
           label:this.daños[i],
           data:aux2.slice(),
           borderColor:this.color,
+          lineTension:.25
          })
        aux2=diasvalor.slice();
 
@@ -512,6 +518,7 @@ export class GraficasComponent implements OnInit {
           label:dat[i],
           data:aux2,
           borderColor:this.color,
+          lineTension:.25
          })
        aux2=diasvalor.slice();
 
@@ -649,6 +656,7 @@ for(let i=0;i<=this.dias_graficas.length;i++)
       label:this.daños[i],
       data:aux2.slice(),
       borderColor:this.color,
+      lineTension:.25
      })
    aux2=diasvalor.slice();
 
@@ -809,6 +817,7 @@ for(let i=0;i<=this.dias_graficas.length;i++)
         label:dat[i],
         data:aux2.slice(),
         borderColor:this.color,
+        lineTension:.25
        })
      aux2=diasvalor.slice();
 
