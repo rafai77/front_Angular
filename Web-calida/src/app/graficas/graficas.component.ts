@@ -1026,6 +1026,315 @@ for(let i=0;i<=this.dias_graficas.length;i++)
 
 
 
+  grafica13()
+  {
+
+  //this.chart.destroy();
+
+
+  this.dias_graficas=[];
+  var mes="";
+
+  if(this.fromDate.month.toString().length>1)
+  mes=this.fromDate.month.toString();
+  else
+  mes="0"+this.fromDate.month.toString()
+  var f1=new Date(this.fromDate.year.toString()+"-"+mes+"-"+this.fromDate.day.toString());
+
+  if(this.toDate.month.toString().length>1)
+  mes=this.toDate.month.toString();
+  else
+  mes="0"+this.toDate.month.toString()
+  var f2=new Date(this.toDate.year.toString()+"-"+mes+"-"+this.toDate.day.toString());
+
+  var resta = f2.getTime() - f1.getTime()
+  var dias=(Math.round(resta/ (1000*60*60*24)));
+  var dato="racimo1";
+  var dato2="racimo2";
+  var dato3="racimo3";
+  var dato4="racimo4";
+  var dato5="racimo5";
+  var dato6="racimo6";
+  var dato7="tamchico";
+  var dat=[]
+  dat.push(dato);
+  dat.push(dato2);
+  dat.push(dato3);
+  dat.push(dato4);
+  dat.push(dato5);
+  dat.push(dato6);
+  dat.push(dato7);
+  this.datos.chart13(dat,f1,f2).subscribe((res:Graficas)=>
+  {
+  //console.log(f1,f2)
+  var dia="";
+  var aux= this.fromDate;
+  this.dias_graficas=[];
+  for (let i=0;i<=dias;i++)
+  {
+    if(aux.day.toString().length>1)
+    dia=aux.day.toString();
+    else
+    dia="0"+aux.day.toString()
+    if(aux.month.toString().length>1)
+    mes=aux.month.toString();
+    else
+    mes="0"+aux.month.toString()
+    this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+dia)));
+    aux=this.calendar.getNext(aux,"d",1);
+
+  }
+
+  var diasvalor=[]
+  var aux2=[]
+  var contador=0;
+  var data_chart=[]
+  var dataset=[]
+  aux2=diasvalor.slice();
+  for(let i=0;i<=this.dias_graficas.length;i++)
+  {
+    diasvalor[i]=0;
+  }
+  aux2=diasvalor.slice();
+  console.log(diasvalor)
+
+  if (this.chart) this.chart.destroy();
+
+    console.log(res);
+    if (this.chart) this.chart.destroy();
+
+    for (var i in dat)
+    {
+      console.log(aux2)
+     for (var j in res)
+     {
+
+       if(dat[i]==res[j]["campo"])
+       {
+        if(this.dias_graficas.includes(res[j]["fecha"]))
+          aux2[this.dias_graficas.indexOf(res[j]["fecha"])]=(res[j]["valor"])
+        else
+          aux2[j]=0
+       }
+     }
+
+
+
+     this.getRandomColor()
+
+     data_chart.push(
+       {
+        label:dat[i],
+        data:aux2.slice(),
+        borderColor:this.color,
+        lineTension:.25
+       })
+     aux2=diasvalor.slice();
+
+    }
+    console.log(data_chart)
+    if (this.chart) this.chart.destroy();
+    if (this.chart)
+    {
+      //console.log(this.chart)
+      this.chart.destroy();
+
+    }
+
+    this.chart=new Chart('canvas',{
+      type:'line',
+      data:{
+
+        labels:this.dias_graficas,//.map(item => new Intl.DateTimeFormat('es-MX',{month:'long',day:'numeric'}).format(new Date(item))),
+        datasets:data_chart
+      },
+      options:
+      {
+        title:{
+          display:true,
+          text:"Racimos del invernadero 16",
+          fontSize:30,
+
+
+        },
+        legend:{
+          position:'bottom',
+          labels:
+          {
+            padding:20,
+            fontFamily:'system-ui',
+            fontColor:'black'
+          }
+
+        },
+        tooltips:
+        {
+          backgroundColor:'#05b4f6',
+          mode:'x'
+        },
+        elements:
+        {
+          line:{
+            borderWidth:4,
+            fill:false
+          },
+          point:{
+            radius:6,
+            borderWidth:4,
+            backgroundColor:'white',
+            hoverRadius:8
+          }
+        }
+      }
+
+    });
+  }
+  );
+
+}
+
+
+graficaD13()
+  {
+
+//this.chart2.destroy();
+
+
+this.dias_graficas=[];
+var mes="";
+if(this.fromDate.month.toString().length>1)
+mes=this.fromDate.month.toString();
+else
+mes="0"+this.fromDate.month.toString()
+var f1=new Date(this.fromDate.year.toString()+"-"+mes+"-"+this.fromDate.day.toString());
+
+if(this.toDate.month.toString().length>1)
+mes=this.toDate.month.toString();
+else
+mes="0"+this.toDate.month.toString()
+var f2=new Date(this.toDate.year.toString()+"-"+mes+"-"+this.toDate.day.toString());
+
+var resta = f2.getTime() - f1.getTime()
+var dias=(Math.round(resta/ (1000*60*60*24)));
+this.datos.chart13(this.daños16,f1,f2).subscribe((res:any)=>
+{
+  this.dias_graficas=[]
+var aux= this.fromDate;
+var dia="";
+for (let i=0;i<=dias;i++)
+{
+  if(aux.day.toString().length>1)
+  dia=aux.day.toString();
+  else
+  dia="0"+aux.day.toString()
+  if(aux.month.toString().length>1)
+  mes=aux.month.toString();
+  else
+  mes="0"+aux.month.toString()
+
+  this.dias_graficas.push(((aux.year.toString()+"-"+mes+"-"+dia)));
+  aux=this.calendar.getNext(aux,"d",1);
+
+}
+var diasvalor=[]
+var aux2=[]
+var contador=0;
+var data_chart=[]
+var dataset=[]
+
+
+aux2=diasvalor.slice();
+for(let i=0;i<=this.dias_graficas.length;i++)
+  {
+    diasvalor[i]=0;
+  }
+  aux2=diasvalor.slice();
+
+  if (this.chart2) this.chart2.destroy();
+  for (let i in this.daños16)
+  {
+   for (let j in res)
+   {
+
+    if(this.daños16[i]==res[j]["campo"])
+     {
+          var auxF=res[j]["fecha"].slice(0,7);
+          auxF+="-"+res[j]["fecha"].slice(9);
+         // console.log(this.dias_graficas, res[j]["fecha"],this.dias_graficas.includes(auxF),auxF )
+      if(this.dias_graficas.includes(res[j]["fecha"]))
+        aux2[this.dias_graficas.indexOf(res[j]["fecha"])]=(res[j]["valor"])
+      if(this.dias_graficas.includes(auxF))
+        aux2[this.dias_graficas.indexOf(auxF)]=(res[j]["valor"])
+     }
+   }
+   this.getRandomColor()
+   data_chart.push(
+     {
+      label:this.daños16[i],
+      data:aux2.slice(),
+      borderColor:this.color,
+      spanGaps :false,
+      lineTension:.25
+     })
+   aux2=diasvalor.slice();
+
+  }
+ // console.log(this.dias_graficas)
+  if (this.chart2) this.chart2.destroy();
+  this.chart2=new Chart('canvas2',{
+    type:'line',
+    spanGaps :false,
+    data:{
+
+      labels:this.dias_graficas,//.map(item => new Intl.DateTimeFormat('es-MX',{month:'long',day:'numeric'}).format(new Date(item))),
+      datasets:data_chart
+    },
+    options:
+    {
+      title:{
+        display:true,
+        text:"Daños del invernadero 16",
+        fontSize:30,
+
+
+      },
+      legend:{
+        position:'bottom',
+        labels:
+        {
+          padding:20,
+          fontFamily:'system-ui',
+          fontColor:'black'
+        }
+
+      },
+      tooltips:
+      {
+        backgroundColor:'#05b4f6',
+        mode:'x'
+      },
+      elements:
+      {
+        line:{
+          borderWidth:4,
+          fill:false
+        },
+        point:{
+          radius:6,
+          borderWidth:4,
+          backgroundColor:'white',
+          hoverRadius:8
+        }
+      }
+    }
+
+  })
+}
+);
+
+  }
+
+
 
 graficar()
 {
@@ -1047,6 +1356,13 @@ graficar()
       //console.log("12")
       this.grafica16()
       this.graficaD16()
+      }
+
+   if (this.dropvalue=='Invernadero-13')
+  {
+      //console.log("12")
+      this.grafica13()
+      this.graficaD13()
       }
   if (this.dropvalue=='Invernadero-15')
   {
